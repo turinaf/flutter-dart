@@ -29,15 +29,15 @@ class _MyAppState extends State<MyApp> {
     var questions = [
       {
         'question': "What's your favorite color?",
-        'answers': ['Black', 'Red', "Green", 'White']
+        'answers': ['Black', 'Red', "Green", 'White'],
       },
       {
         'question': "What's your favorite animal?",
-        'answers': ['Cat', 'Rabbit', "Elephant", 'Lion']
+        'answers': ['Cat', 'Rabbit', "Elephant", 'Lion'],
       },
       {
         'question': "Who is your favorite football player",
-        'answers': ['Messi', 'Ronaldo', "Saleh", 'Robin']
+        'answers': ['Messi', 'Ronaldo', "Saleh", 'Robin'],
       },
     ];
     // TODO: implement build
@@ -47,14 +47,14 @@ class _MyAppState extends State<MyApp> {
           title: Text("Quiz App"),
         ),
         body: Column(
-          children: <Widget>[
+          children: [
             // Text(questions[_questionIndex]),
             Question(questions[_questionIndex]['question'] as String),
-            // ignore: deprecated_member_use
-            Answer(_answerQuestion),
-            Answer(_answerQuestion),
-            Answer(_answerQuestion),
-            Answer(_answerQuestion),
+            // three dots (Spread operator), take a list and pull all the value out of it and add them as individual list to the Column's children
+            ...(questions[_questionIndex]['answers'] as List<String>)
+                .map((answer) {
+              return Answer(_answerQuestion, answer);
+            }).toList()
           ],
         ),
       ),
