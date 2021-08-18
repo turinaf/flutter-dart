@@ -66,9 +66,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text("Quiz App"),
+          centerTitle: true,
+          leading: FlutterLogo(),
         ),
         body: _questionIndex < _questions.length
             ? Quiz(
