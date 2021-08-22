@@ -50,63 +50,70 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                labelText: "Title",
-              ),
-              controller: _titleController,
-              onSubmitted: (_) => _submitData(),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                labelText: "Amount",
-              ),
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitData(),
-              controller: _amountController,
-              // onChanged: (value) => amountInput = value,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    _selectedDate == null
-                        ? 'No date Chosen'
-                        : 'Picked Date: ${DateFormat.yMMMEd().format(_selectedDate!)}',
-                  ),
+    return SingleChildScrollView(
+      child: Card(
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                  labelText: "Title",
                 ),
-                TextButton(
-                  onPressed: _showDatePicker,
-                  child: Text(
-                    'Choose date',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  style: ButtonStyle(
-                      foregroundColor:
-                          MaterialStateProperty.all(Colors.purple)),
+                controller: _titleController,
+                onSubmitted: (_) => _submitData(),
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: "Amount",
                 ),
-              ],
-            ),
-            ElevatedButton(
-              onPressed: _submitData,
-              child: Text(
-                "Add Transaction",
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => _submitData(),
+                controller: _amountController,
+                // onChanged: (value) => amountInput = value,
               ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.purple),
-                foregroundColor: MaterialStateProperty.all(Colors.white),
+              SizedBox(
+                height: 10,
               ),
-            ),
-          ],
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? 'No date Chosen'
+                          : 'Picked Date: ${DateFormat.yMMMEd().format(_selectedDate!)}',
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: _showDatePicker,
+                    child: Text(
+                      'Choose date',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all(Colors.purple)),
+                  ),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: _submitData,
+                child: Text(
+                  "Add Transaction",
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.purple),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

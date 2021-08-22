@@ -26,6 +26,8 @@ class ChartBar extends StatelessWidget {
               height: constraint.maxHeight * 0.6,
               width: 10,
               child: Stack(
+                // -- Alignment displays the chart from bottom to top, the defualt is from top to bottom.
+                alignment: Alignment.bottomCenter,
                 children: [
                   Container(
                     decoration: BoxDecoration(
