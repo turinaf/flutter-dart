@@ -59,7 +59,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final List<Transaction> _userTransactions = [
     // initial data for test.
     // Transaction(
@@ -77,6 +77,29 @@ class _HomePageState extends State<HomePage> {
   ];
 
   bool _showChart = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //-- Adding observer
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  // for AppLiffecycle added by WidgetsBindingObserver.
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    // super.didChangeAppLifecycleState(state);
+    print(state);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+  }
+
   void _addNewTransaction(
       String txTitle, double txAmount, DateTime chosenDate) {
     final newTx = Transaction(
