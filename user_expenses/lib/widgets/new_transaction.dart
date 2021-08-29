@@ -5,16 +5,50 @@ class NewTransaction extends StatefulWidget {
   // const NewTransaction({Key? key}) : super(key: key);
   final Function addTransactionHandler;
 
-  NewTransaction(this.addTransactionHandler);
+  NewTransaction(this.addTransactionHandler) {
+    print("Constructor newTransaction widget ");
+  }
 
   @override
-  _NewTransactionState createState() => _NewTransactionState();
+  _NewTransactionState createState() {
+    print("createState newTransaction Widget ");
+    return _NewTransactionState();
+  }
 }
 
 class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
+
+  _NewTransactionState() {
+    print("Constructor newTransaction State ");
+  }
+
+  // --initState
+  @override
+  void initState() {
+    // TODO: implement initState
+    // -- Load some data form internet/database
+    print("initState");
+    super.initState();
+  }
+
+  //-- didupdateWidget widget
+  @override
+  void didUpdateWidget(covariant NewTransaction oldWidget) {
+    // TODO: implement didUpdateWidget
+    print("didupdateWidget()");
+    super.didUpdateWidget(oldWidget);
+  }
+
+  // -- dispose
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    print("dispose");
+    super.dispose();
+  }
 
   void _submitData() {
     final enteredTitle = _titleController.text;
