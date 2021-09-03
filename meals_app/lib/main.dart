@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import './category_meals_screen.dart';
 import './categories_screen.dart';
 
 void main() {
@@ -13,10 +15,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final String categoryRoute = '/category-meals';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: _HomeScreen(),
       theme: ThemeData(
         primarySwatch: Colors.pink,
         accentColor: Colors.amber,
@@ -31,21 +33,11 @@ class _MyAppState extends State<MyApp> {
             ),
       ),
       debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
-class _HomeScreen extends StatelessWidget {
-  const _HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Meals App"),
-        centerTitle: true,
-      ),
-      body: CategoriesScreen(),
+      // home: CategoriesScreen(),
+      routes: {
+        '/': (ctx) => CategoriesScreen(), // defualt one for homescreen
+        categoryRoute: (ctx) => CategoryMealsScreen(),
+      },
     );
   }
 }
