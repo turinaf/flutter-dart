@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/screens/meal_detail_screen.dart';
 
-import './category_meals_screen.dart';
-import './categories_screen.dart';
+import './screens/category_meals_screen.dart';
+import './screens/categories_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -37,6 +38,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/': (ctx) => CategoriesScreen(), // defualt one for homescreen
         categoryRoute: (ctx) => CategoryMealsScreen(),
+        MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
       },
     );
   }
