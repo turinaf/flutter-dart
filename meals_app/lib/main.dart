@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './screens/filters_screen.dart';
 
 import './screens/meal_detail_screen.dart';
 import './screens/tabs_screen.dart';
@@ -40,6 +41,7 @@ class _MyAppState extends State<MyApp> {
         '/': (ctx) => TabsScreen(), // defualt one for homescreen
         categoryRoute: (ctx) => CategoryMealsScreen(),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
+        FiltersScreen.routeName: (ctx) => FiltersScreen(),
       },
       // Used when the route is not defined in routes.
       // onGenerateRoute is your fallback/ option to have more control about the creation + configuration of routing actions (= MaterialPageRoute that then loads a specific screen widget).
