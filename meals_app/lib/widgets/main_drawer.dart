@@ -49,7 +49,7 @@ class MainDrawer extends StatelessWidget {
             'Meals',
             Icons.restaurant,
             () {
-              Navigator.of(context).pushNamed('/');
+              Navigator.of(context).pushReplacementNamed('/');
               // print("Meals clicked");
             },
           ),
@@ -58,7 +58,8 @@ class MainDrawer extends StatelessWidget {
             Icons.settings,
             () {
               // print("Filter clicked");
-              Navigator.of(context).pushNamed(FiltersScreen.routeName);
+              Navigator.of(context)
+                  .pushReplacementNamed(FiltersScreen.routeName);
             },
           )
         ],
