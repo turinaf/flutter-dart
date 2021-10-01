@@ -32,12 +32,12 @@ class ProductItem extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        header: Text(
-          product.id,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-          ),
-        ),
+        // header: Text(
+        //   product.id,
+        //   style: TextStyle(
+        //     color: Theme.of(context).primaryColor,
+        //   ),
+        // ),
         footer: GridTileBar(
           backgroundColor: Colors.black54,
           leading: IconButton(

@@ -20,7 +20,8 @@ class UsersProductsScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(EditProductScreen.routeName);
+                Navigator.of(context)
+                    .pushNamed(EditProductScreen.routeName, arguments: '');
               },
               icon: Icon(Icons.add))
         ],
@@ -31,10 +32,20 @@ class UsersProductsScreen extends StatelessWidget {
           itemCount: productsData.items.length,
           itemBuilder: (_, i) => Column(children: [
             UserProductItem(
-                productsData.items[i].title, productsData.items[i].imageUrl),
+              productsData.items[i].id,
+              productsData.items[i].title,
+              productsData.items[i].imageUrl,
+            ),
             Divider(),
           ]),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context)
+              .pushNamed(EditProductScreen.routeName, arguments: '');
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
