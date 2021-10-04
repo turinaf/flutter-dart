@@ -41,20 +41,7 @@ class CartScreen extends StatelessWidget {
                     ),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
-                  TextButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.purple),
-                      foregroundColor: MaterialStateProperty.all(Colors.white),
-                    ),
-                    onPressed: () {
-                      Provider.of<Orders>(context, listen: false).addOrder(
-                        cart.items.values.toList(),
-                        cart.totalAmount,
-                      );
-                      cart.clearCart(); // Listening to change in Cart, but not in Orders, that's why listen: false in the above.
-                    },
-                    child: Text("Order NOW"),
-                  ),
+                  OrderButton(cart: cart),
                 ],
               ),
             ),
@@ -75,6 +62,48 @@ class CartScreen extends StatelessWidget {
           ))
         ],
       ),
+    );
+  }
+}
+
+class OrderButton extends StatefulWidget {
+  const OrderButton({
+    Key? key,
+    required this.cart,
+  }) : super(key: key);
+
+  final Cart cart;
+
+  @override
+  _OrderButtonState createState() => _OrderButtonState();
+}
+
+class _OrderButtonState extends State<OrderButton> {
+  var _isLoading = false;
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      child: _isLoading ? CircularProgressIndicator() : Text("Order NOW"),
+      // style: ButtonStyle(
+      //   backgroundColor: MaterialStateProperty.all(Colors.purple),
+      //   foregroundColor: MaterialStateProperty.all(Colors.white),
+      // ),
+      onPressed: (widget.cart.totalAmount) <= 0 || _isLoading
+          ? null
+          : () async {
+              setState(() {
+                _isLoading = true;
+              });
+              await Provider.of<Orders>(context, listen: false).addOrder(
+                widget.cart.items.values.toList(),
+                widget.cart.totalAmount,
+              );
+              setState(() {
+                _isLoading = false;
+              });
+              widget.cart
+                  .clearCart(); // Listening to change in Cart, but not in Orders, that's why listen: false in the above.
+            },
     );
   }
 }
