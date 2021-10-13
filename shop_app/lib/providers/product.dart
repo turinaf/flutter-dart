@@ -25,13 +25,13 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleFavoriteStatus() async {
+  void toggleFavoriteStatus(String token) async {
     // -- Saving update status to server too. We need to keep our
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
     final url = Uri.parse(
-        'https://flutter-dart-cd5c8-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json');
+        'https://flutter-dart-cd5c8-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json?auth=$token');
     try {
       final response = await http.patch(url,
           body: json.encode({

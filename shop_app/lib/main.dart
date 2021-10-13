@@ -7,9 +7,11 @@ import './providers/products.dart';
 import './providers/cart.dart';
 import './screens/cart_screen.dart';
 import './providers/orders.dart';
+import './providers/auth.dart';
 import './screens/orders_screen.dart';
 import './screens/user_products_screen.dart';
 import './screens/edit_products_screen.dart';
+import './screens/auth_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,31 +26,43 @@ class MyApp extends StatelessWidget {
       providers: [
         // Product provider enables us to listen to the product anywere in the app
         ChangeNotifierProvider(
-          create: (ctx) => Products(),
+          create: (ctx) => Auth(),
+        ),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          // create: (ctx, auth, previousProducts) => Products(),
+          create: (_) => Products('', []),
+          update: (ctx, auth, previousProducts) => Products(auth.token!,
+              previousProducts == null ? [] : previousProducts.items),
         ),
         ChangeNotifierProvider(
           create: (ctx) =>
               Cart(), // now we can listen to Cart anywhere in the app
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => Orders(),
+        ChangeNotifierProxyProvider<Auth, Orders>(
+          create: (_) => Orders("", []),
+          update: (ctx, auth, previousOrder) => Orders(
+              auth.token!, previousOrder == null ? [] : previousOrder.orders),
         ),
       ],
-      child: MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.purple,
-          accentColor: Colors.deepOrange,
-          fontFamily: 'lato',
+
+      // -- Material rebuilds whenever auth changes i.e user logged in/out
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          theme: ThemeData(
+            primarySwatch: Colors.purple,
+            accentColor: Colors.deepOrange,
+            fontFamily: 'lato',
+          ),
+          home: auth.isAuth ? ProductsOverviewScreen() : AuthScreen(),
+          debugShowCheckedModeBanner: false,
+          routes: {
+            ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+            CartScreen.routeName: (ctx) => CartScreen(),
+            OrdersScreen.routeName: (ctx) => OrdersScreen(),
+            UsersProductsScreen.routeName: (ctx) => UsersProductsScreen(),
+            EditProductScreen.routeName: (ctx) => EditProductScreen(),
+          },
         ),
-        home: ProductsOverviewScreen(),
-        debugShowCheckedModeBanner: false,
-        routes: {
-          ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-          CartScreen.routeName: (ctx) => CartScreen(),
-          OrdersScreen.routeName: (ctx) => OrdersScreen(),
-          UsersProductsScreen.routeName: (ctx) => UsersProductsScreen(),
-          EditProductScreen.routeName: (ctx) => EditProductScreen(),
-        },
       ),
     );
   }
