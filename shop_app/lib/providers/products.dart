@@ -57,7 +57,9 @@ class Products with ChangeNotifier {
 
   var _showFavoriteOnly = false;
   final String authToken;
-  Products(this.authToken, this._items);
+  final String userID;
+
+  Products(this.authToken, this.userID, this._items);
   List<Product> get items {
     if (_showFavoriteOnly) {
       return _items.where((prod) => prod.isFavorite).toList();
@@ -77,15 +79,23 @@ class Products with ChangeNotifier {
   //   _showFavoriteOnly = false;
   //   notifyListeners();
   // }
-  Future<void> fetchAndSetProducts() async {
-    final url = Uri.parse(
-        'https://flutter-dart-cd5c8-default-rtdb.asia-southeast1.firebasedatabase.app/products.json?auth=$authToken');
+
+  // -- the argument in [] is optional and should be provided with default value.
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userID"' : '';
+    var url = Uri.parse(
+        'https://flutter-dart-cd5c8-default-rtdb.asia-southeast1.firebasedatabase.app/products.json?auth=$authToken&$filterString');
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       if (extractedData == null) {
         return;
       }
+      url = Uri.parse(
+          'https://flutter-dart-cd5c8-default-rtdb.asia-southeast1.firebasedatabase.app/userFavorite/$userID.json?auth=$authToken');
+      final favoriteResponse = await http.get(url);
+      final favoriteData = json.decode(favoriteResponse.body);
       final List<Product> loadedProducts = [];
       extractedData.forEach((prodId, prodData) {
         loadedProducts.add(Product(
@@ -94,7 +104,8 @@ class Products with ChangeNotifier {
           description: prodData['description'],
           price: prodData['price'],
           imageUrl: prodData['imageUrl'],
-          isFavorite: prodData['isFavorite'],
+          isFavorite:
+              favoriteData == null ? false : favoriteData[prodId] ?? false,
         ));
       });
       _items = loadedProducts;
@@ -117,7 +128,7 @@ class Products with ChangeNotifier {
           'description': product.description,
           'price': product.price,
           'imageUrl': product.imageUrl,
-          'isFavorite': product.isFavorite,
+          'creatorId': userID,
         }),
       );
 
