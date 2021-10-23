@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           // create: (ctx, auth, previousProducts) => Products(),
           create: (_) => Products('', '', []),
           update: (ctx, auth, previousProducts) => Products(
-              auth.token!,
+              auth.token,
               auth.userID,
               previousProducts == null ? [] : previousProducts.items),
         ),
@@ -41,9 +41,9 @@ class MyApp extends StatelessWidget {
               Cart(), // now we can listen to Cart anywhere in the app
         ),
         ChangeNotifierProxyProvider<Auth, Orders>(
-          create: (_) => Orders("", []),
-          update: (ctx, auth, previousOrder) => Orders(
-              auth.token!, previousOrder == null ? [] : previousOrder.orders),
+          create: (_) => Orders("", '', []),
+          update: (ctx, auth, previousOrder) => Orders(auth.token, auth.userID,
+              previousOrder == null ? [] : previousOrder.orders),
         ),
       ],
 
