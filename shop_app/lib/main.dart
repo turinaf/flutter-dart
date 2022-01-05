@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import './screens/splash_screen.dart';
 import './screens/products_overview_screen.dart';
 import './screens/product_detail_screen.dart';
 import './providers/products.dart';
@@ -52,10 +53,18 @@ class MyApp extends StatelessWidget {
         builder: (ctx, auth, _) => MaterialApp(
           theme: ThemeData(
             primarySwatch: Colors.purple,
-            accentColor: Colors.deepOrange,
+            // accentColor: Colors.deepOrange,
             fontFamily: 'lato',
           ),
-          home: auth.isAuth ? ProductsOverviewScreen() : AuthScreen(),
+          home: auth.isAuth
+              ? ProductsOverviewScreen()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (ctx, authResultSnapshot) =>
+                      authResultSnapshot.connectionState ==
+                              ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen()),
           debugShowCheckedModeBanner: false,
           routes: {
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
