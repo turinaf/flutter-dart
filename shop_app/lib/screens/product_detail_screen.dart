@@ -28,7 +28,12 @@ class ProductDetailScreen extends StatelessWidget {
             expandedHeight: 300,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(loadedProduct.title),
+              title: Text(
+                loadedProduct.title,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
               background: Hero(
                 tag: loadedProduct.id,
                 child: Image.network(
