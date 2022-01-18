@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/image_input.dart';
+
 class AddPlaceScreen extends StatefulWidget {
   const AddPlaceScreen({Key? key}) : super(key: key);
   static const routeName = '/add-place';
@@ -8,6 +10,7 @@ class AddPlaceScreen extends StatefulWidget {
 }
 
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
+  final _titleController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,10 +18,26 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
         title: const Text('Add a New Place'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text('User Input'),
+          // Expanded widget gets all the height it can get and leave the rest for other widget as much it needs.
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    TextField(
+                      decoration: const InputDecoration(labelText: 'Title'),
+                      controller: _titleController,
+                    ),
+                    const SizedBox(height: 10),
+                    const ImageInput(),
+                  ],
+                ),
+              ),
+            ),
+          ),
           ElevatedButton.icon(
             onPressed: () {
               // Navigator.of(context).pushNamed(routeName)
