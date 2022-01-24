@@ -22,30 +22,49 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng? _pickedLocation;
-  void _selectLocation(LatLng position) {
-    setState(() {
-      _pickedLocation = position;
-    });
-  }
+  // void _selectLocation(LatLng position) {
+  //   setState(() {
+  //     _pickedLocation = position;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select location'),
+        actions: [
+          if (widget.isSelecting)
+            IconButton(
+              onPressed: _pickedLocation == null
+                  ? null
+                  : () {
+                      Navigator.of(context).pop(_pickedLocation);
+                    },
+              icon: const Icon(Icons.check),
+            )
+        ],
       ),
       body: FlutterMap(
         options: MapOptions(
-            center: LatLng(widget.initialLocation.latitude,
-                widget.initialLocation.longitude),
-            zoom: 13.0,
+          center: LatLng(widget.initialLocation.latitude,
+              widget.initialLocation.longitude),
+          zoom: 13.0,
 
-            // -- Alternative to initialize tha map by specifying bounds intead of Center and Zoom
-            // bounds: LatLngBounds(LatLng(58.8, 6.1), LatLng(59, 6.2)),
-            // boundsOptions: FitBoundsOptions(padding: EdgeInsets.all(8.0)),
-            plugins: [
-              TappablePolylineMapPlugin(),
-            ]),
+          // -- Alternative to initialize tha map by specifying bounds intead of Center and Zoom
+          // bounds: LatLngBounds(LatLng(58.8, 6.1), LatLng(59, 6.2)),
+          // boundsOptions: FitBoundsOptions(padding: EdgeInsets.all(8.0)),
+          plugins: [
+            TappablePolylineMapPlugin(),
+          ],
+          onTap: widget.isSelecting
+              ? (tapPosition, point) {
+                  setState(() {
+                    _pickedLocation = point;
+                  });
+                }
+              : null,
+        ),
         layers: [
           TileLayerOptions(
             //-- Mapbox URL
@@ -63,38 +82,38 @@ class _MapScreenState extends State<MapScreen> {
           ),
 
           // --- Tappable plyline
-          TappablePolylineLayerOptions(
-              // Will only render visible polylines, increasing performance
-              polylineCulling: true,
-              pointerDistanceTolerance: 20,
-              polylines: [
-                TaggedPolyline(
-                  tag:
-                      "My Polyline", // An optional tag to distinguish polylines in callback
-                  // ...all other Polyline options
-                  // points: getPoints(1),
-                  points: getPoints(1),
-                  color: Colors.black,
-                  strokeWidth: 9.0,
-                ),
-              ],
-              onTap: (polylines, tapPosition) => print('Tapped: ' +
-                  polylines.map((polyline) => polyline.tag).join(',') +
-                  ' at ' +
-                  tapPosition.globalPosition.toString()),
-              // onMiss: (tapPosition) {
-              //   print('No polyline was tapped at position ' +
-              //       tapPosition.globalPosition.toString());
-              // },
-              onMiss: widget.isSelecting
-                  ? (tapPosition) {
-                      setState(() {
-                        //--- tapPosition.localPosition /globalPosition out of range of degree of Latitude and longitude
-                        _pickedLocation = LatLng(tapPosition.localPosition.dx,
-                            tapPosition.localPosition.dy);
-                      });
-                    }
-                  : null),
+          // TappablePolylineLayerOptions(
+          //     // Will only render visible polylines, increasing performance
+          //     polylineCulling: true,
+          //     pointerDistanceTolerance: 20,
+          //     polylines: [
+          //       TaggedPolyline(
+          //         tag:
+          //             "My Polyline", // An optional tag to distinguish polylines in callback
+          //         // ...all other Polyline options
+          //         // points: getPoints(1),
+          //         points: getPoints(1),
+          //         color: Colors.black,
+          //         strokeWidth: 9.0,
+          //       ),
+          //     ],
+          //     onTap: (polylines, tapPosition) => print('Tapped: ' +
+          //         polylines.map((polyline) => polyline.tag).join(',') +
+          //         ' at ' +
+          //         tapPosition.globalPosition.toString()),
+          //     // onMiss: (tapPosition) {
+          //     //   print('No polyline was tapped at position ' +
+          //     //       tapPosition.globalPosition.toString());
+          //     // },
+          //     onMiss: widget.isSelecting
+          //         ? (tapPosition) {
+          //             setState(() {
+          //               //--- tapPosition.localPosition /globalPosition out of range of degree of Latitude and longitude
+          //               _pickedLocation = LatLng(tapPosition.localPosition.dx,
+          //                   tapPosition.localPosition.dy);
+          //             });
+          //           }
+          //         : null),
           MarkerLayerOptions(
             markers: [
               Marker(

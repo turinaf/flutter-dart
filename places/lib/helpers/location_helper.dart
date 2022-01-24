@@ -10,4 +10,6 @@ class LocationHelper {
       {required double latitude, required double longitude}) {
     return 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/$longitude,$latitude,14.25,0,60/300x300?access_token=$MAPBOX_API_KEY';
   }
+
+  // static Future<String> getPlaceAddress(double lat, double lng) async {}
 }
