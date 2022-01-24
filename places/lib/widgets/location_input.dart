@@ -17,9 +17,18 @@ class LocationInput extends StatefulWidget {
 class _LocationInputState extends State<LocationInput> {
   String? _priviewImageUrl;
 
+  void _showPriview(double lat, double lng) {
+    final staticMapImageUrl = LocationHelper.generateLocationPreviewImage(
+      latitude: lat,
+      longitude: lng,
+    );
+    setState(() {
+      _priviewImageUrl = staticMapImageUrl;
+    });
+  }
+
   Future<void> _getCurrentUserLocation() async {
     Location location = new Location();
-
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
     LocationData _locationData;
@@ -39,20 +48,16 @@ class _LocationInputState extends State<LocationInput> {
         return;
       }
     }
-
-    _locationData = await location.getLocation();
-
-    // final locData = await Location().getLocation();
-    final staticMapImageUrl = LocationHelper.generateLocationPreviewImage(
-      latitude: _locationData.latitude as double,
-      longitude: _locationData.longitude as double,
-    );
-
-    //-- Assign the staticMapImageUrl to  _previewImageUrl
-    setState(() {
-      _priviewImageUrl = staticMapImageUrl;
-    });
-    widget.onSelectPlace(_locationData.latitude, _locationData.longitude);
+    try {
+      _locationData = await location.getLocation();
+      // -- show th pickedLocation on the preview part
+      _showPriview(
+          _locationData.latitude as double, _locationData.longitude as double);
+      widget.onSelectPlace(_locationData.latitude, _locationData.longitude);
+    } catch (e) {
+      // ---print the error
+      print(e.toString());
+    }
   }
 
   Future<void> _selectOnMp() async {
@@ -68,6 +73,9 @@ class _LocationInputState extends State<LocationInput> {
     if (selectedLocation == null) {
       return;
     }
+
+    // -- show th pickedLocation on the preview part
+    _showPriview(selectedLocation.latitude, selectedLocation.longitude);
     widget.onSelectPlace(selectedLocation.latitude, selectedLocation.longitude);
   }
 

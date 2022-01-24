@@ -10,8 +10,8 @@ class MapScreen extends StatefulWidget {
   final bool isSelecting;
 
   MapScreen(
-      {this.initialLocation =
-          const PlaceLocation(latitude: 30.5723, longitude: 104.0665),
+      {this.initialLocation = const PlaceLocation(
+          latitude: 30.647404247673876, longitude: 104.06058582189524),
       this.isSelecting = false});
 
   @override
@@ -30,7 +30,7 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select location'),
+        title: const Text('Your location'),
         actions: [
           if (widget.isSelecting)
             IconButton(
@@ -48,11 +48,6 @@ class _MapScreenState extends State<MapScreen> {
           center: LatLng(widget.initialLocation.latitude,
               widget.initialLocation.longitude),
           zoom: 13.0,
-
-          // -- Alternative to initialize tha map by specifying bounds intead of Center and Zoom
-          // bounds: LatLngBounds(LatLng(58.8, 6.1), LatLng(59, 6.2)),
-          // boundsOptions: FitBoundsOptions(padding: EdgeInsets.all(8.0)),
-
           onTap: widget.isSelecting
               ? (tapPosition, point) {
                   setState(() {

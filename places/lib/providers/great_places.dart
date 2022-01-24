@@ -62,4 +62,9 @@ class GreatPlaces with ChangeNotifier {
         .toList();
     notifyListeners();
   }
+
+  Place findById(String id) {
+    // -- firstWhere gives certain item where the given condtion is satisfied.
+    return _items.firstWhere((place) => place.id == id);
+  }
 }
