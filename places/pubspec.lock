@@ -97,13 +97,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.14.0"
-  flutter_map_tappable_polyline:
-    dependency: "direct main"
-    description:
-      name: flutter_map_tappable_polyline
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -122,7 +115,7 @@ packages:
     source: sdk
     version: "0.0.0"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"

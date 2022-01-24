@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:flutter_map_tappable_polyline/flutter_map_tappable_polyline.dart';
 
 import '../models/place.dart';
-import '../models/data.dart';
 
 class MapScreen extends StatefulWidget {
   static const routeName = '/ma-screen';
@@ -54,9 +52,7 @@ class _MapScreenState extends State<MapScreen> {
           // -- Alternative to initialize tha map by specifying bounds intead of Center and Zoom
           // bounds: LatLngBounds(LatLng(58.8, 6.1), LatLng(59, 6.2)),
           // boundsOptions: FitBoundsOptions(padding: EdgeInsets.all(8.0)),
-          plugins: [
-            TappablePolylineMapPlugin(),
-          ],
+
           onTap: widget.isSelecting
               ? (tapPosition, point) {
                   setState(() {
@@ -80,40 +76,6 @@ class _MapScreenState extends State<MapScreen> {
               return const Text("© OpenStreetMap contributors");
             },
           ),
-
-          // --- Tappable plyline
-          // TappablePolylineLayerOptions(
-          //     // Will only render visible polylines, increasing performance
-          //     polylineCulling: true,
-          //     pointerDistanceTolerance: 20,
-          //     polylines: [
-          //       TaggedPolyline(
-          //         tag:
-          //             "My Polyline", // An optional tag to distinguish polylines in callback
-          //         // ...all other Polyline options
-          //         // points: getPoints(1),
-          //         points: getPoints(1),
-          //         color: Colors.black,
-          //         strokeWidth: 9.0,
-          //       ),
-          //     ],
-          //     onTap: (polylines, tapPosition) => print('Tapped: ' +
-          //         polylines.map((polyline) => polyline.tag).join(',') +
-          //         ' at ' +
-          //         tapPosition.globalPosition.toString()),
-          //     // onMiss: (tapPosition) {
-          //     //   print('No polyline was tapped at position ' +
-          //     //       tapPosition.globalPosition.toString());
-          //     // },
-          //     onMiss: widget.isSelecting
-          //         ? (tapPosition) {
-          //             setState(() {
-          //               //--- tapPosition.localPosition /globalPosition out of range of degree of Latitude and longitude
-          //               _pickedLocation = LatLng(tapPosition.localPosition.dx,
-          //                   tapPosition.localPosition.dy);
-          //             });
-          //           }
-          //         : null),
           MarkerLayerOptions(
             markers: [
               Marker(
