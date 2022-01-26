@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 //-- My own package
-import './screens/chat_screen.dart';
 import './screens/auth_screen.dart';
 
 void main() async {
