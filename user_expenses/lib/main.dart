@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
               accentColor: Colors.amber,
               fontFamily: 'Quicksand',
               textTheme: ThemeData.light().textTheme.copyWith(
-                    title: TextStyle(
+                    subtitle1: TextStyle(
                       fontFamily: 'OpenSans',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
                   ),
               appBarTheme: AppBarTheme(
                 textTheme: ThemeData.light().textTheme.copyWith(
-                      title: TextStyle(
+                      subtitle1: TextStyle(
                         fontFamily: 'OpenSans',
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         children: [
           Text(
             "Show Chart",
-            style: Theme.of(context).textTheme.title,
+            style: Theme.of(context).textTheme.subtitle1,
           ),
           Switch.adaptive(
             activeColor: Theme.of(context).primaryColor,
@@ -209,9 +209,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   Widget _buildMaterialAppBar() {
     return AppBar(
-      title: Text(
+      title: const Text(
         "Personal Expenses",
-        style: TextStyle(fontFamily: 'OpenSans'),
+        style: const TextStyle(fontFamily: 'OpenSans'),
       ),
       actions: [
         IconButton(
