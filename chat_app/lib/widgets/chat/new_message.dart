@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class NewMessage extends StatefulWidget {
   const NewMessage({Key? key}) : super(key: key);
@@ -10,16 +11,19 @@ class NewMessage extends StatefulWidget {
 
 class _NewMessageState extends State<NewMessage> {
   var _enteredMessage = '';
-  final _controller = new TextEditingController();
+  final _controller = TextEditingController();
 
-  void _sendMessage() {
+  void _sendMessage() async {
     // -- unfocus the text field so that the keyboard will disappear
     FocusScope.of(context).unfocus();
     //-- send the message to firebase
     // -- add function takes a map
+    final user = await Future.value(FirebaseAuth.instance.currentUser);
+
     FirebaseFirestore.instance.collection('chat').add({
       'text': _enteredMessage,
       'createdAt': Timestamp.now(),
+      'userId': user!.uid
     });
 
     //-- Clear the text field after send message.
