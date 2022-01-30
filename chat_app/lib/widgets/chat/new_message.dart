@@ -18,12 +18,17 @@ class _NewMessageState extends State<NewMessage> {
     FocusScope.of(context).unfocus();
     //-- send the message to firebase
     // -- add function takes a map
-    final user = await Future.value(FirebaseAuth.instance.currentUser);
-
+    final user = FirebaseAuth.instance.currentUser!;
+    final userData = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+    // final user = await Future.value(FirebaseAuth.instance.currentUser);
     FirebaseFirestore.instance.collection('chat').add({
       'text': _enteredMessage,
       'createdAt': Timestamp.now(),
-      'userId': user!.uid
+      'userId': user.uid,
+      'username': userData['username']
     });
 
     //-- Clear the text field after send message.
