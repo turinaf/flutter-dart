@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../widgets/pickers/user_image_picker.dart';
@@ -5,8 +7,14 @@ import '../widgets/pickers/user_image_picker.dart';
 class AuthForm extends StatefulWidget {
   const AuthForm(this.submitFn, this.isLoading);
   final bool isLoading;
-  final void Function(String email, String userName, String password,
-      bool isLogin, BuildContext ctx) submitFn;
+  final void Function(
+    String email,
+    String userName,
+    String password,
+    File? userImage,
+    bool isLogin,
+    BuildContext ctx,
+  ) submitFn;
 
   @override
   _AuthFormState createState() => _AuthFormState();
@@ -18,18 +26,37 @@ class _AuthFormState extends State<AuthForm> {
   String _userEmail = '';
   String _userName = '';
   String _userPassword = '';
+  File? _userProfile;
+
+  void _pickedImage(File image) {
+    _userProfile = image;
+  }
 
   void _trySubmit() {
     final isValid = _formKey.currentState!
         .validate(); // This will trigger all validators in each TextFormField
     FocusScope.of(context)
         .unfocus(); // This will remove the focus away from TextField so that the softkeyboard will be closed when we hit submit/login button.
+    if (_userProfile == null && !_isLogin) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: const Text('Please select image'),
+        backgroundColor: Theme.of(context).errorColor,
+      ));
+
+      return;
+    }
     if (isValid) {
       _formKey.currentState!
           .save(); // This will trigger onSaved function in all TextFormField.
       // -- Use those values to send our auth request to db.
-      widget.submitFn(_userEmail.trim(), _userName.trim(), _userPassword.trim(),
-          _isLogin, context);
+      widget.submitFn(
+        _userEmail.trim(),
+        _userName.trim(),
+        _userPassword.trim(),
+        _userProfile,
+        _isLogin,
+        context,
+      );
     }
   }
 
@@ -46,7 +73,7 @@ class _AuthFormState extends State<AuthForm> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (!_isLogin) const UserImagePicker(),
+                  if (!_isLogin) UserImagePicker(_pickedImage),
                   TextFormField(
                     key: const ValueKey('email'),
                     validator: (value) {
