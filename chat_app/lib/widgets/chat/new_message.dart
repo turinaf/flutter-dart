@@ -48,6 +48,9 @@ class _NewMessageState extends State<NewMessage> {
               controller: _controller,
               keyboardType: TextInputType.multiline,
               maxLines: 1,
+              autocorrect: true,
+              textCapitalization: TextCapitalization.words,
+              enableSuggestions: true,
               decoration: const InputDecoration(labelText: 'Send a message...'),
               onChanged: (value) {
                 setState(() {

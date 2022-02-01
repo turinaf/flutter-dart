@@ -1,6 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -35,7 +34,8 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? androidNotification = message.notification!.android;
@@ -52,7 +52,6 @@ class _ChatScreenState extends State<ChatScreen> {
         );
       }
     });
-    super.initState();
   }
 
   @override
@@ -63,6 +62,7 @@ class _ChatScreenState extends State<ChatScreen> {
         centerTitle: true,
         actions: [
           DropdownButton(
+            underline: Container(),
             icon: Icon(
               Icons.more_vert,
               color: Theme.of(context).primaryIconTheme.color,
@@ -71,7 +71,10 @@ class _ChatScreenState extends State<ChatScreen> {
               DropdownMenuItem(
                 child: Row(
                   children: const [
-                    Icon(Icons.exit_to_app),
+                    Icon(
+                      Icons.exit_to_app,
+                      color: Colors.black,
+                    ),
                     SizedBox(width: 8),
                     Text("Logout"),
                   ],
