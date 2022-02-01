@@ -28,12 +28,12 @@ class MessageBubble extends StatelessWidget {
               decoration: BoxDecoration(
                 color: !isMe ? Colors.grey[300] : Theme.of(context).accentColor,
                 borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(12),
-                  topRight: const Radius.circular(12),
-                  bottomLeft: !isMe
+                  bottomLeft: const Radius.circular(12),
+                  bottomRight: const Radius.circular(12),
+                  topLeft: !isMe
                       ? const Radius.circular(0)
                       : const Radius.circular(12),
-                  bottomRight: isMe
+                  topRight: isMe
                       ? const Radius.circular(0)
                       : const Radius.circular(12),
                 ),
@@ -73,7 +73,7 @@ class MessageBubble extends StatelessWidget {
           ],
         ),
         Positioned(
-          top: 45,
+          top: 0,
           left: isMe ? null : 2,
           right: isMe ? 2 : null,
           child: CircleAvatar(
