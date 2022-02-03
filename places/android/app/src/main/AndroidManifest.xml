@@ -6,7 +6,7 @@
 
 
    <application
-        android:label="places"
+        android:label="Places"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
