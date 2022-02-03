@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: "Flutter Demo",
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -32,34 +32,39 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int? _batteryLevel;
-Future<void> _getBatteryLevel () async{
-  const platform = MethodChannel('course.flutter.dev/battery');
-  try {
-    final batteryLevel = await platform.invokeMethod(
-        'getBatteryLevel'); // Invokes method in native code
-    setState(() {
-      _batteryLevel = batteryLevel;
-    });
-  } on PlatformException catch(error){
-    setState(() {
-     _batteryLevel = null;
-    });
+  Future<void> _getBatteryLevel() async {
+    const platform = MethodChannel("course.flutter.dev/battery");
+    try {
+      final batteryLevel = await platform
+          .invokeMethod("getBatteryLevel"); // Invokes method in native code
+      setState(() {
+        _batteryLevel = batteryLevel;
+      });
+    } on PlatformException catch (error) {
+      setState(() {
+        _batteryLevel = null;
+      });
+    }
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getBatteryLevel();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-
         title: Text(widget.title),
         centerTitle: true,
       ),
       body: Center(
-        child: Text('Battery Level: $_batteryLevel'),
+        child: Text("Battery Level: $_batteryLevel"),
       ),
-       // This trailing comma makes auto-formatting nicer for build methods.
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
